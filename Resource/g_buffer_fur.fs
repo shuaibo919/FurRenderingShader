@@ -10,6 +10,7 @@ in mat3 TBN;
 
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_noise;
+uniform sampler2D texture_basePosition;
 uniform vec3 viewPos;
 
 const int SampleCount = 64; // Number of fur samples
@@ -46,6 +47,9 @@ void main()
         // FurPattern控制，当前Layer大于Pattern的采样值才计算贡献, 可用的函数: x, x^2, sqrt(x)....
         float Alpha = texture(texture_noise, CurPatternUV).r;
         float PatternMask =  step(CurLayer * CurLayer, Alpha);
+
+        // todo: texture_basePosition
+        // 采样BasePosition以计算毛发边缘的镂空与透明效果
         
         // 越靠外的毛发计算叠加颜色时的透明度越高，  可用的函数: 1-x, 1-x^2, 1-sqrt(x)...
         Alpha = (1 - CurLayer * CurLayer);
